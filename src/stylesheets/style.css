@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+
+html,
+body {
+    font-family: 'Roboto', sans-serif;
+    position: relative
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0; 
+}
+
+#map,
+#map__text {
+    position: absolute
+}
+
+#map__text {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

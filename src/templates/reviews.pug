@@ -1,0 +1,12 @@
+if reviews
+    each reviews
+        <div class="review-container">
+            <div class="review-container__header">
+                <span class="review-container__author">#{name}</span>
+                <span class="review-container__place">#{place}</span>
+                <span class="review-container__time">#{time}</span>
+            </div>
+            <div class="review-container__review">#{review}</div>
+        </div>
+else
+    <span class="review-container__empty">Нет отзывов</span>
