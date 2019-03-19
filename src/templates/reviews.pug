@@ -1,12 +1,10 @@
 if reviews
-    each reviews
-        <div class="review-container">
-            <div class="review-container__header">
-                <span class="review-container__author">#{name}</span>
-                <span class="review-container__place">#{place}</span>
-                <span class="review-container__time">#{time}</span>
-            </div>
-            <div class="review-container__review">#{review}</div>
-        </div>
+    each item in reviews
+        .review-container
+            .review-container__header
+                span.review-container__author= item.name
+                span.review-container__place= item.place
+                span.review-container__time= item.time
+            .review-container__review= item.review
 else
-    <span class="review-container__empty">Нет отзывов</span>
+    span.review-container__empty Нет отзывов

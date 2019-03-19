@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-//const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -59,7 +58,7 @@ module.exports = {
       use: {
           loader: 'babel-loader',
           options: {
-              presets: ['env']
+              presets: ['@babel/preset-env']
           }
       }
     }

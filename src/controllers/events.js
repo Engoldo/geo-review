@@ -79,7 +79,6 @@ module.exports = {
     },
 
     click: () => {
-
         map.makeMap.events.add('click', e => {
             this.mapClick(e);
         });

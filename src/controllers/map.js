@@ -1,14 +1,14 @@
 module.exports = {
 
-    mapInit: () => {
+    mapInit: function() {
         return this.getGeolocation()
             .then(coordinates => this.makeMap(coordinates))
             .then(res => this.clusterer());
     },
 
     makeMap: coordinates => {
-        let map = document.querySelector('#map');
-        
+        let map = document.querySelector('#map-id');
+
         map.makeMap = new ymaps.Map(map, {
             center: coordinates,
             zoom: 10
@@ -16,7 +16,7 @@ module.exports = {
     },
   
     getGeolocation: () => {
-        return map.getGeolocation.get({ provider: 'auto'})
+        return ymaps.geolocation.get({ provider: 'auto' })
             .then(res => res.geoObjects.position)
     },
 
@@ -61,7 +61,7 @@ module.exports = {
     },
     
     geoCode: coordinates => {
-        return map.geocode(coordinates)
+        return ymaps.geocode(coordinates)
             .then(result => result.geoObjects.get(0).properties.get('name'));
     }    
 };

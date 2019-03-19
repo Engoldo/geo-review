@@ -1,35 +1,20 @@
-<div class="popup">
-
-    <header class="popup__header">
-        <div class="header">
-            <div class="header__marker">
-                <i class="flaticon-marker"></i>
-            </div>
-            <div class="header__title">#{address}</div>
-            <div class="header__close">
-                <i class="flaticon-close"></i>
-            </div>
-        </div>
-    </header>
-
-    <section class="popup__body">
-        <div class="review-container"></div>
-        <div class="review">
-            <div class="review__title">Отзыв</div>
-            <form class="review__form">
-                <input type="text" class="review__author" placeholder="Ваше имя"/>
-                <input type="text" class="review__place" placeholder="Укажите место"/>
-                <div class="review__message-wrapper">
-                    <textarea type="text" class="review__message" placeholder="Здесь будет ваш отзыв"> </textarea>
-                </div>  
-            </form>
-        </div>
-    </section>
-
-    <footer class="popup__footer">
-        <div class="footer">
-            <button class="footer__button">Добавить</button>
-        </div>
-    </footer>
-
-</div>
+.popup
+    header.popup__header
+        .header
+            .header__marker
+                //- i.flaticon-marker
+            .header__title= address
+            .header__close
+                //- i.flaticon-close
+    section.popup__body
+        .review-container
+        .review
+            .review__title Отзыв
+            form.review__form
+                input.review__author(type='text', placeholder='Ваше имя')
+                input.review__place(type='text', placeholder='Укажите место')
+                .review__message-wrapper
+                    textarea.review__message(placeholder='Здесь будет ваш отзыв')
+    footer.popup__footer
+        .footer
+            button.footer__button Добавить
