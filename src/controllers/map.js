@@ -3,7 +3,7 @@ module.exports = {
     mapInit: function() {
         return this.getGeolocation()
             .then(coordinates => this.makeMap(coordinates))
-            .then(res => this.clusterer());
+            .then(() => this.clusterer());
     },
 
     makeMap: coordinates => {
@@ -48,7 +48,7 @@ module.exports = {
 
             },
             {
-                preset: 'islands#blueStretchyIcon',
+                preset: 'islands#redIcon',
                 openBaloonOnclick: false
             }    
         );

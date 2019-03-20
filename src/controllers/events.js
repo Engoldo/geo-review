@@ -22,7 +22,7 @@ module.exports = {
 
         if (data) {
             data.coordinates = this.currentCoordinates;
-            map.placemark(data);
+            map.createPlacemark(data);
             popup.appendReview(data);
         }
     },
@@ -76,6 +76,14 @@ module.exports = {
                 currentReviews.push(review);
             }
         });
+
+        map.makeMap.balloon.close();
+
+        popup.open({
+            position: [e.clientX, e.clientY],
+            address: currentCoordinates[0].address,
+            reviews: currentReviews
+        });
     },
 
     click: () => {
@@ -88,6 +96,7 @@ module.exports = {
         });
 
         document.body.addEventListener('click', e => {
+            console.log('click')
             e.preventDefault();
 
             if (e.target.closest('.header__close')) {
@@ -96,7 +105,7 @@ module.exports = {
             } else if (e.target.closest('.footer__button')) {
 
                 this.addPlacemark();
-            } else if (e.target) {
+            } else if (e.target.closest('.placelink')) {
 
                 this.linkClick(e);
             }
