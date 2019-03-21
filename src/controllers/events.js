@@ -27,8 +27,8 @@ module.exports = {
         }
     },
 
-    mapClick: e => {
-
+    mapClick: function(e) {
+        console.log('inmapclick')
         map.makeMap.balloon.close();
 
         map.geoCode(e.get('coordinates'))
@@ -86,17 +86,21 @@ module.exports = {
         });
     },
 
-    click: () => {
-        map.makeMap.events.add('click', e => {
+    click: function() {
+        //.log(map.makeMap)
+
+        map.makeMap.events.add('click', function(e) {
+            console.log(e)
             this.mapClick(e);
         });
 
-        map.makeMap.geoObjects.events.add('click', e => {
-            this.geoClick(e);
-        });
+        // ymaps.map.geoObjects.events.add('click', e => {
+        //     console.log('geoobjclick')
+        //     this.geoClick(e);
+        // });
 
         document.body.addEventListener('click', e => {
-            console.log('click')
+            //console.log(e)
             e.preventDefault();
 
             if (e.target.closest('.header__close')) {

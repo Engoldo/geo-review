@@ -1,3 +1,5 @@
+let events = require('./events');
+
 module.exports = {
 
     mapInit: function() {
@@ -6,7 +8,7 @@ module.exports = {
             .then(() => this.clusterer());
     },
 
-    makeMap: coordinates => {
+    makeMap: function(coordinates) {
         let map = document.querySelector('#map-id');
 
         map.makeMap = new ymaps.Map(map, {
@@ -17,20 +19,27 @@ module.exports = {
   
     getGeolocation: () => {
         return ymaps.geolocation.get({ provider: 'auto' })
-            .then(res => res.geoObjects.position)
+            .then(res => res.geoObjects.position);
     },
 
     clusterer: () => {
-        map.clusterer = new ymaps.Clusterer({
-            clusterBalloonContentLayout: 'cluster#balloonCarousel',
-            clusterDisableClickZoom: true,
-            openBaloonOnclick: true
-        });
+        console.log(ymaps)
+        try {
+            ymaps.clusterer = new ymaps.Clusterer({
+                clusterDisableClickZoom: true,
+                clusterOpenBalloonOnClick: true,
+                clusterBalloonContentLayout: 'cluster#balloonCarousel'
+            });
 
-        map.makeMap.geoObjects.add(map.clusterer);
+            ymaps.map.geoObjects.add(ymaps.clusterer);
+            
+        } catch (err) {
+            console.log(err);
+        }        
     },
 
     createPlacemark: data => {
+        console.log('createplacemark')
         let { coordinates, address, place, name, review, time } = data;
         let placemark = new ymaps.Placemark(coordinates, 
             {
@@ -61,6 +70,7 @@ module.exports = {
     },
     
     geoCode: coordinates => {
+        console.log('geocode')
         return ymaps.geocode(coordinates)
             .then(result => result.geoObjects.get(0).properties.get('name'));
     }    

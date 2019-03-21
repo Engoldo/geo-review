@@ -13,7 +13,6 @@ module.exports = {
         };
     },
 
-
     getData: callback => {
         let { name, place, address } = this.data();
 
