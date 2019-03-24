@@ -1,15 +1,15 @@
 .popup
     header.popup__header
         .header
-            .header__marker
-                //- i.flaticon-marker
+            label.header__marker
+                img(src='https://i.ibb.co/KsRD6H0/icons8-marker-16.png')
             .header__title= address
-            .header__close
-                //- i.flaticon-close
+            button.header__close
+                img(src="https://i.ibb.co/CPZtpVM/close1.png")
     section.popup__body
         .review-container
         .review
-            .review__title Отзыв
+            .review__title Ваш Отзыв
             form.review__form
                 input.review__author(type='text', placeholder='Ваше имя')
                 input.review__place(type='text', placeholder='Укажите место')

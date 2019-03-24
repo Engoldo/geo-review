@@ -1,5 +1,5 @@
-let popup = require('../templates/popup.pug');
-let reviews = require('../templates/reviews.pug');
+let popupPug = require('../templates/popup.pug');
+let reviewsPug = require('../templates/reviews.pug');
 let wrapper = document.querySelector('.popup__wrapper');
 let empty = true;
 
@@ -13,10 +13,11 @@ module.exports = {
         };
     },
 
-    getData: callback => {
-        let { name, place, address } = this.data();
+    getData: function(callback) {
+        let { name, place, review, address } = this.data();
 
         if (name.value !== '' && place.value !== '' && review.value !== '') {
+            
             return {
                 type: 'data',
                 name: name.value,
@@ -37,12 +38,12 @@ module.exports = {
         wrapper.style.position = 'absolute';
         wrapper.style.top = position[1] + 'px';
         wrapper.style.left = position[0] + 'px';
-        wrapper.innerHTML = popup({ address: address });
+        wrapper.innerHTML = popupPug({ address: address });
 
         let reviewContainer = document.querySelector('.review-container');
 
         if (reviews) {
-            reviewContainer.innerHTML = reviews({ reviews: reviews });
+            reviewContainer.innerHTML = reviewsPug({ reviews: reviews });
         } else {
             reviewContainer.innerHTML = reviews();
         }
@@ -54,7 +55,7 @@ module.exports = {
 
     appendReview: data => {
         let reviewContainer = document.querySelector('.review-container');
-        let toHtml = reviews({ reviews: [data] });
+        let toHtml = reviewsPug({ reviews: [data] });
 
         if (!data || empty) {
             reviewContainer.innerHTML = toHtml;

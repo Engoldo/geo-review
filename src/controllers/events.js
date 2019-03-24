@@ -1,12 +1,13 @@
 let popup = require('./popup');
-let map = require('./map');
+let objects = require('./objects');
 
 module.exports = {
 
     currentCoordinates: null,
 
     openPopup: data => {
-        map.geoCode(data.coordinates)
+        //console.log(data)
+        map.objects.geoCode(data.coordinates)
             .then(address => {
                 data.address = address;
                 popup.open();
@@ -17,38 +18,36 @@ module.exports = {
         popup.close();
     },
 
-    addPlacemark: () => {
+    addPlacemark: function() {
         let data = popup.getData();
-
         if (data) {
             data.coordinates = this.currentCoordinates;
-            map.createPlacemark(data);
+            objects.createPlacemark(data);
             popup.appendReview(data);
         }
     },
 
     mapClick: function(e) {
-        console.log('inmapclick')
-        map.makeMap.balloon.close();
-
-        map.geoCode(e.get('coordinates'))
+        ymaps.map.balloon.close();
+        
+        objects.geoCode(e.get('coords'))
             .then(address => {
+                
                 popup.open({
                     type: 'map',
                     position: e.get('position'),
                     address: address
-                });    
-            });
+                });
+        });
 
-        this.currentCoordinates = e.get('coordinates');
+        this.currentCoordinates = e.get('coords');
     },
 
     geoClick: e => {
-
         let target = e.get('target');
 
         if (!target.properties.get('geoObjects', null)) {
-            map.makeMap.balloon.close();
+            ymaps.map.balloon.close();
 
             popup.open({
                 type: 'placemark',
@@ -64,20 +63,19 @@ module.exports = {
     },
 
     linkClick: e => {
-        let objectReview = map.objectReview;
+        let objectReview = ymaps.objectReview;
         let currentCoordinates = e.target.dataset.coordinates;
         let currentReviews = [];
-        let coordinates;
 
         objectReview.forEach(review => {
-            coordinates = review.coordinates.join();
+            let coordinates = review.coordinates.join();
 
             if (currentCoordinates === coordinates) {
                 currentReviews.push(review);
             }
         });
 
-        map.makeMap.balloon.close();
+        ymaps.map.balloon.close();
 
         popup.open({
             position: [e.clientX, e.clientY],
@@ -87,29 +85,29 @@ module.exports = {
     },
 
     click: function() {
-        //.log(map.makeMap)
-
-        map.makeMap.events.add('click', function(e) {
-            console.log(e)
+        
+        ymaps.map.events.add('click', e => {
             this.mapClick(e);
         });
 
-        // ymaps.map.geoObjects.events.add('click', e => {
-        //     console.log('geoobjclick')
-        //     this.geoClick(e);
-        // });
+        ymaps.map.geoObjects.events.add('click', e => {
+            this.geoClick(e);
+        });
 
         document.body.addEventListener('click', e => {
-            //console.log(e)
             e.preventDefault();
 
             if (e.target.closest('.header__close')) {
 
                 this.closePopup();
-            } else if (e.target.closest('.footer__button')) {
+            }
+
+            if (e.target.closest('.footer__button')) {
 
                 this.addPlacemark();
-            } else if (e.target.closest('.placelink')) {
+            }
+
+            if (e.target.closest('.placelink')) {
 
                 this.linkClick(e);
             }
