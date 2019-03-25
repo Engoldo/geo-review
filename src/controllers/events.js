@@ -2,11 +2,9 @@ let popup = require('./popup');
 let objects = require('./objects');
 
 module.exports = {
-
     currentCoordinates: null,
 
     openPopup: data => {
-        //console.log(data)
         map.objects.geoCode(data.coordinates)
             .then(address => {
                 data.address = address;
@@ -43,7 +41,7 @@ module.exports = {
         this.currentCoordinates = e.get('coords');
     },
 
-    geoClick: e => {
+    geoClick: function(e) {
         let target = e.get('target');
 
         if (!target.properties.get('geoObjects', null)) {
@@ -84,6 +82,28 @@ module.exports = {
         });
     },
 
+    modalDnD: function(target) {
+        target.onmousedown = e => {
+            let {left, top} = target.getBoundingClientRect();
+            let offsetLeft = e.pageX - left;
+            let offsetTop = e.pageY - top;
+    
+            function move(e) {
+                target.style.left = `${e.pageX - offsetLeft}px`;
+                target.style.top = `${e.pageY - offsetTop}px`;
+            }
+    
+            wrapper.onmousemove = e => {
+                move(e);
+            };
+    
+            target.onmouseup = () => {
+                target.onmouseup = null;
+                wrapper.onmousemove = null;
+            };
+        };
+    },
+
     click: function() {
         
         ymaps.map.events.add('click', e => {
@@ -91,27 +111,29 @@ module.exports = {
         });
 
         ymaps.map.geoObjects.events.add('click', e => {
-            this.geoClick(e);
+            this.geoClick(e); 
         });
-
+    
         document.body.addEventListener('click', e => {
             e.preventDefault();
 
-            if (e.target.closest('.header__close')) {
+            if(e.target.closest('.popup__header')) {
+                this.modalDnD(e);
+            }
 
+            if (e.target.closest('.header__close')) {
                 this.closePopup();
             }
 
             if (e.target.closest('.footer__button')) {
-
                 this.addPlacemark();
             }
 
             if (e.target.closest('.placelink')) {
-
                 this.linkClick(e);
-            }
+            }            
         });
+        
     }
 
 };

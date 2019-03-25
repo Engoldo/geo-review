@@ -53,15 +53,23 @@ module.exports = {
         wrapper.innerHTML = '';
     },
 
-    appendReview: data => {
+    appendReview: function(data) {
         let reviewContainer = document.querySelector('.review-container');
-        let toHtml = reviewsPug({ reviews: [data] });
+        let authorField = document.querySelector('.review__author');
+        let placeField = document.querySelector('.review__place');
+        let messageField = document.querySelector('.review__message');
 
+        let toHtml = reviewsPug({ reviews: [data] });
+    
         if (!data || empty) {
             reviewContainer.innerHTML = toHtml;
             empty = false;
         } else {
             reviewContainer.innerHTML += toHtml;
         }
+
+        authorField.value = '';
+        placeField.value = '';
+        messageField.value = '';
     }
 };
