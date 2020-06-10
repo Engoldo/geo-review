@@ -79,7 +79,7 @@ body {
 }
 
 .review-container {
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
     -ms-overflow-x: hidden;
 }
@@ -110,7 +110,7 @@ body {
     outline: none;
     border: none;
         
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
     -ms-overflow-x: hidden;
 }

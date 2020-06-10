@@ -8,7 +8,7 @@ module.exports = {
 
     makeMap: function(coordinates) {
         let map = document.querySelector('#map-id');
-        
+
         ymaps.map = new ymaps.Map(map, {
             center: coordinates,
             zoom: 10
@@ -29,7 +29,6 @@ module.exports = {
             });
 
             ymaps.map.geoObjects.add(ymaps.clusterer);
-            
         } catch (err) {
             console.log(err);
         }        

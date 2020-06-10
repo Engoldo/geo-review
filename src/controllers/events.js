@@ -1,5 +1,6 @@
 let popup = require('./popup');
 let objects = require('./objects');
+let wrapper = document.querySelector('.popup__wrapper');
 
 module.exports = {
     currentCoordinates: null,
@@ -82,26 +83,23 @@ module.exports = {
         });
     },
 
-    modalDnD: function(target) {
-        target.onmousedown = e => {
-            let {left, top} = target.getBoundingClientRect();
-            let offsetLeft = e.pageX - left;
-            let offsetTop = e.pageY - top;
-    
-            function move(e) {
-                target.style.left = `${e.pageX - offsetLeft}px`;
-                target.style.top = `${e.pageY - offsetTop}px`;
-            }
-    
-            wrapper.onmousemove = e => {
-                move(e);
-            };
-    
-            target.onmouseup = () => {
-                target.onmouseup = null;
-                wrapper.onmousemove = null;
-            };
-        };
+    modalDnD: function() {
+        let coordX;
+        let coordY;
+
+        const popupEl = document.querySelector('.popup__wrapper');
+        popupEl.draggable = true;
+        popupEl.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/html', 'dragstart');
+            coordX = e.offsetX;
+            coordY = e.offsetY;
+        });
+
+        popupEl.addEventListener('dragend', e => {
+            popupEl.style.position = 'absolute';
+            popupEl.style.top = (e.pageY - coordY) + 'px';
+            popupEl.style.left = (e.pageX - coordX) + 'px';
+        });
     },
 
     click: function() {
@@ -113,13 +111,11 @@ module.exports = {
         ymaps.map.geoObjects.events.add('click', e => {
             this.geoClick(e); 
         });
-    
+
+        this.modalDnD();
+
         document.body.addEventListener('click', e => {
             e.preventDefault();
-
-            if(e.target.closest('.popup__header')) {
-                this.modalDnD(e);
-            }
 
             if (e.target.closest('.header__close')) {
                 this.closePopup();
